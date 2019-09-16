@@ -58,6 +58,18 @@ var seattle = {
     var list = document.createElement('ul');
     tag.appendChild(list);
 
+    for(var i = 0; i < this.salesPerHour.length; i++) {
+
+      console.log(this.salesPerHour[i]);
+
+      var li = document.createElement('li');
+
+      li.textContent = this.salesPerHour[i];
+
+      list.appendChild(li);
+
+    }
+
   },
 
 };
