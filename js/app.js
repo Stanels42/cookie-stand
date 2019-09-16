@@ -15,3 +15,55 @@ function random(min, max) {
   return( Math.floor( Math.random() * difference) + min);
 
 }
+
+//Store: Seattle
+var seattle = {
+
+  //store name
+  location: 'Seattle',
+  //store min visits
+  minVisits: 23,
+  //store max visits
+  maxVisits: 65,
+  //avg sales per person
+  avgSales: 6.3,
+  //store open
+  openTime: 6,
+  //store close
+  closeTime: 20,
+  //sales per hour [array]
+  salesPerHour: [],
+
+  //Fill the salesPerHour Array with a value for each hour of operation
+  calculateSales: function() {
+
+    var hoursOpen = this.closeTime - this.openTime;
+
+    for (var i = 0; i < hoursOpen; i++) {
+
+      var visits = random(this.minVisits, this.maxVisits);
+      this.salesPerHour.push(Math.round( visits * this.avgSales ) );
+
+    }
+
+    console.log(this.salesPerHour);
+
+  },
+
+  //Adding to the HTML
+  render: function() {
+
+    var tag = document.getElementById('Seattle');
+
+    var list = document.createElement('ul');
+    tag.appendChild(list);
+
+  },
+
+};
+
+//Store: Tokyo
+//Store: Dubai
+//Store: Paris
+//Store: Lima
+
