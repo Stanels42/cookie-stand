@@ -30,7 +30,7 @@ var seattle = {
   //store open
   openTime: 6,
   //store close
-  closeTime: 20,
+  closeTime: 21,
   //sales per hour [array]
   salesPerHour: [],
 
@@ -53,22 +53,50 @@ var seattle = {
   //Adding to the HTML
   render: function() {
 
+    var totalSales = 0;
+
     var tag = document.getElementById('Seattle');
+
+    var storeName = document.createElement('h3');
+
+    storeName.textContent = this.location;
+
+    tag.appendChild(storeName);
 
     var list = document.createElement('ul');
     tag.appendChild(list);
 
     for(var i = 0; i < this.salesPerHour.length; i++) {
 
-      console.log(this.salesPerHour[i]);
-
       var li = document.createElement('li');
 
-      li.textContent = this.salesPerHour[i];
+      var time = i + this.openTime;
+
+      if(time < 12) {
+
+        li.textContent = `${time}am: ${this.salesPerHour[i]} cookies`;
+
+      } else if(time === 12) {
+
+        li.textContent = `${time}pm: ${this.salesPerHour[i]} cookies`;
+
+      } else {
+
+        li.textContent = `${time - 12}pm: ${this.salesPerHour[i]} cookies`;
+
+      }
+
+      totalSales += this.salesPerHour[i];
 
       list.appendChild(li);
 
     }
+
+    var total = document.createElement('li');
+
+    total.textContent = `Total Sales: ${totalSales} cookies`;
+
+    list.appendChild(total);
 
   },
 
