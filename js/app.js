@@ -5,466 +5,233 @@
 //Dubai   Min:11 Max:28 Avg:3.7
 //Paris   Min:20 Max:38 Avg:2.3
 //Lima    Min:2  Max:16 Avg:4.6
-//Operation Hours 6am - 8pm
 
-function random(min, max) {
+//Operation Hours 6am (6) - 9pm (21)
+const storeOpen = 6;
+const storeClose = 21;
 
-  //The '+ 1' is to make sure the random will have the chance to return the max value some of the time
+
+
+//Object Declaration
+function Store (location, minVisits, maxVisits, avgSales) {
+
+  //Assigning all parameters to variables
+  this.location = location;
+  this.minVisits = minVisits;
+  this.maxVisits = maxVisits;
+  this.avgSales = avgSales;
+
+  //Default values for the object
+  this.salesPerHour = [];
+  this.salesTotal = 0;
+
+  //Add this store to the list of stores
+  Store.all.push(this);
+
+  //populate the array for the daily sales
+  this.calculateSales();
+
+}
+
+//Array of all Stores
+Store.all = [];
+
+//Fill and array with each index being sales for a different hour
+Store.prototype.calculateSales = function() {
+
+  //Get the value for the total hours the store is open
+  var hoursOpen = storeClose - storeOpen;
+
+  //for each hour calculate the sales
+  for (var i = 0; i < hoursOpen; i++) {
+
+    var visits = this.random(this.minVisits, this.maxVisits);
+
+    var sales = Math.round( visits * this.avgSales );
+
+    this.salesTotal += sales;
+    this.salesPerHour.push(sales);
+
+  }
+
+};
+
+//Add the sales for a spific city to the table getting the row as a parameter
+Store.prototype.render = function(row) {
+
+  //Adding the name of the location
+  var location = document.createElement('td');
+  location.textContent = this.location;
+
+  row.appendChild(location);
+
+  //going through each hour and adding the value to the table
+  for (var i = 0; i < this.salesPerHour.length; i++) {
+
+    var sales = document.createElement('td');
+    sales.textContent = this.salesPerHour[i];
+
+    row.appendChild(sales);
+
+  }
+
+  //adding the daily total of this shop to the table at the end;
+  var tableTotal = document.createElement('td');
+  tableTotal.textContent = this.salesTotal;
+
+  row.appendChild(tableTotal);
+
+};
+
+//getting the random number for visits between the min and the max inclusive
+Store.prototype.random = function(min, max){
+
+  //The '+ 1' is to make sure the random will be min/max inclusive
   var difference = max - min + 1;
 
   return( Math.floor( Math.random() * difference) + min);
 
+};
+
+
+
+//Called to print the entire table
+function printTable () {
+
+  //getting the table element from the HTML
+  var table = document.getElementById('table');
+
+  //Print the Times and the Labels for the Table
+  printHeader(table);
+
+  //Iterate through each store location
+  for (var i = 0; i < Store.all.length; i++) {
+
+    var row = document.createElement('tr');
+
+    Store.all[i].render(row);
+
+    table.appendChild(row);
+
+  }
+
+  //Add the hourly sales across all locations as well as the daily total
+  printFooter(table);
+
 }
 
-//Store: Seattle
-var seattle = {
+function printHeader (table) {
 
-  //store name
-  location: 'Seattle',
-  //store min visits
-  minVisits: 23,
-  //store max visits
-  maxVisits: 65,
-  //avg sales per person
-  avgSales: 6.3,
-  //store open
-  openTime: 6,
-  //store close
-  closeTime: 21,
-  //sales per hour [array]
-  salesPerHour: [],
+  //Get the number of Hours that the store will be open
+  var operationHours = storeClose - storeOpen;
 
-  //Fill the salesPerHour Array with a value for each hour of operation
-  calculateSales: function() {
+  var row = document.createElement('tr');
 
-    var hoursOpen = this.closeTime - this.openTime;
+  //print 'location'
+  var locationTag = document.createElement('th');
+  locationTag.textContent = 'Location';
 
-    for (var i = 0; i < hoursOpen; i++) {
+  row.appendChild(locationTag);
 
-      var visits = random(this.minVisits, this.maxVisits);
-      this.salesPerHour.push(Math.round( visits * this.avgSales ) );
+  //Add all operation hours to the header of the table
+  for (var i = 0; i < operationHours; i++) {
+    //print times
+    var newTH = document.createElement('th');
 
-    }
+    var time = i + storeOpen;
 
-  },
+    //Changes based on time of day
+    if(time < 12) {
 
-  //Adding to the HTML
-  render: function() {
+      newTH.textContent = `${time}am`;
 
-    //Store total dayly sales
-    var totalSales = 0;
+    } else if(time === 12) {
 
-    //Get the Seattle tag in HTML
-    var tag = document.getElementById(this.location);
+      newTH.textContent = `${time}pm`;
 
-    //Make the header for the store location and the list for the sales
-    var storeName = document.createElement('h3');
-    var list = document.createElement('ul');
+    } else {
 
-    storeName.textContent = this.location;
-
-    tag.appendChild(storeName);
-    tag.appendChild(list);
-
-    //Making the list of sales
-    for(var i = 0; i < this.salesPerHour.length; i++) {
-
-      var li = document.createElement('li');
-
-      var time = i + this.openTime;
-
-      //Changes based on time of day
-      if(time < 12) {
-
-        li.textContent = `${time}am: ${this.salesPerHour[i]} cookies`;
-
-      } else if(time === 12) {
-
-        li.textContent = `${time}pm: ${this.salesPerHour[i]} cookies`;
-
-      } else {
-
-        li.textContent = `${time - 12}pm: ${this.salesPerHour[i]} cookies`;
-
-      }
-
-      totalSales += this.salesPerHour[i];
-
-      list.appendChild(li);
+      newTH.textContent = `${time - 12}pm`;
 
     }
 
-    var total = document.createElement('li');
+    //Add to the time to the row
+    row.appendChild(newTH);
 
-    total.textContent = `Total Sales: ${totalSales} cookies`;
+  }
 
-    list.appendChild(total);
+  //Add an extra 
+  var dailyTotal = document.createElement('th');
+  dailyTotal.textContent = 'Total Daily Sales';
 
-  },
+  row.appendChild(dailyTotal);
 
-};
-
-//Store: Tokyo
-var tokyo = {
-
-  //store name
-  location: 'Tokyo',
-  //store min visits
-  minVisits: 3,
-  //store max visits
-  maxVisits: 24,
-  //avg sales per person
-  avgSales: 1.2,
-  //store open
-  openTime: 6,
-  //store close
-  closeTime: 21,
-  //sales per hour [array]
-  salesPerHour: [],
-
-  //Fill the salesPerHour Array with a value for each hour of operation
-  calculateSales: function() {
-
-    var hoursOpen = this.closeTime - this.openTime;
-
-    for (var i = 0; i < hoursOpen; i++) {
-
-      var visits = random(this.minVisits, this.maxVisits);
-      this.salesPerHour.push(Math.round( visits * this.avgSales ) );
-
-    }
-
-  },
-
-  //Adding to the HTML
-  render: function() {
-
-    //Store total dayly sales
-    var totalSales = 0;
-
-    //Get the Seattle tag in HTML
-    var tag = document.getElementById(this.location);
-
-    //Make the header for the store location and the list for the sales
-    var storeName = document.createElement('h3');
-    var list = document.createElement('ul');
-
-    storeName.textContent = this.location;
-
-    tag.appendChild(storeName);
-    tag.appendChild(list);
-
-    //Making the list of sales
-    for(var i = 0; i < this.salesPerHour.length; i++) {
-
-      var li = document.createElement('li');
-
-      var time = i + this.openTime;
-
-      //Changes based on time of day
-      if(time < 12) {
-
-        li.textContent = `${time}am: ${this.salesPerHour[i]} cookies`;
-
-      } else if(time === 12) {
-
-        li.textContent = `${time}pm: ${this.salesPerHour[i]} cookies`;
-
-      } else {
-
-        li.textContent = `${time - 12}pm: ${this.salesPerHour[i]} cookies`;
-
-      }
-
-      totalSales += this.salesPerHour[i];
-
-      list.appendChild(li);
-
-    }
-
-    var total = document.createElement('li');
-
-    total.textContent = `Total Sales: ${totalSales} cookies`;
-
-    list.appendChild(total);
-
-  },
-
-};
-
-//Store: Dubai
-var dubai = {
-
-  //store name
-  location: 'Dubai',
-  //store min visits
-  minVisits: 11,
-  //store max visits
-  maxVisits: 38,
-  //avg sales per person
-  avgSales: 1.2,
-  //store open
-  openTime: 6,
-  //store close
-  closeTime: 21,
-  //sales per hour [array]
-  salesPerHour: [],
-
-  //Fill the salesPerHour Array with a value for each hour of operation
-  calculateSales: function() {
-
-    var hoursOpen = this.closeTime - this.openTime;
-
-    for (var i = 0; i < hoursOpen; i++) {
-
-      var visits = random(this.minVisits, this.maxVisits);
-      this.salesPerHour.push(Math.round( visits * this.avgSales ) );
-
-    }
-
-  },
-
-  //Adding to the HTML
-  render: function() {
-
-    //Store total dayly sales
-    var totalSales = 0;
-
-    //Get the Seattle tag in HTML
-    var tag = document.getElementById(this.location);
-
-    //Make the header for the store location and the list for the sales
-    var storeName = document.createElement('h3');
-    var list = document.createElement('ul');
-
-    storeName.textContent = this.location;
-
-    tag.appendChild(storeName);
-    tag.appendChild(list);
-
-    //Making the list of sales
-    for(var i = 0; i < this.salesPerHour.length; i++) {
-
-      var li = document.createElement('li');
-
-      var time = i + this.openTime;
-
-      //Changes based on time of day
-      if(time < 12) {
-
-        li.textContent = `${time}am: ${this.salesPerHour[i]} cookies`;
-
-      } else if(time === 12) {
-
-        li.textContent = `${time}pm: ${this.salesPerHour[i]} cookies`;
-
-      } else {
-
-        li.textContent = `${time - 12}pm: ${this.salesPerHour[i]} cookies`;
-
-      }
-
-      totalSales += this.salesPerHour[i];
-
-      list.appendChild(li);
-
-    }
-
-    var total = document.createElement('li');
-
-    total.textContent = `Total Sales: ${totalSales} cookies`;
-
-    list.appendChild(total);
-
-  },
-
-};
-
-//Store: Paris
-var paris = {
-
-  //store name
-  location: 'Paris',
-  //store min visits
-  minVisits: 20,
-  //store max visits
-  maxVisits: 38,
-  //avg sales per person
-  avgSales: 2.3,
-  //store open
-  openTime: 6,
-  //store close
-  closeTime: 21,
-  //sales per hour [array]
-  salesPerHour: [],
-
-  //Fill the salesPerHour Array with a value for each hour of operation
-  calculateSales: function() {
-
-    var hoursOpen = this.closeTime - this.openTime;
-
-    for (var i = 0; i < hoursOpen; i++) {
-
-      var visits = random(this.minVisits, this.maxVisits);
-      this.salesPerHour.push(Math.round( visits * this.avgSales ) );
-
-    }
-
-  },
-
-  //Adding to the HTML
-  render: function() {
-
-    //Store total dayly sales
-    var totalSales = 0;
-
-    //Get the Seattle tag in HTML
-    var tag = document.getElementById(this.location);
-
-    //Make the header for the store location and the list for the sales
-    var storeName = document.createElement('h3');
-    var list = document.createElement('ul');
-
-    storeName.textContent = this.location;
-
-    tag.appendChild(storeName);
-    tag.appendChild(list);
-
-    //Making the list of sales
-    for(var i = 0; i < this.salesPerHour.length; i++) {
-
-      var li = document.createElement('li');
-
-      var time = i + this.openTime;
-
-      //Changes based on time of day
-      if(time < 12) {
-
-        li.textContent = `${time}am: ${this.salesPerHour[i]} cookies`;
-
-      } else if(time === 12) {
-
-        li.textContent = `${time}pm: ${this.salesPerHour[i]} cookies`;
-
-      } else {
-
-        li.textContent = `${time - 12}pm: ${this.salesPerHour[i]} cookies`;
-
-      }
-
-      totalSales += this.salesPerHour[i];
-
-      list.appendChild(li);
-
-    }
-
-    var total = document.createElement('li');
-
-    total.textContent = `Total Sales: ${totalSales} cookies`;
-
-    list.appendChild(total);
-
-  },
-
-};
-
-//Store: Lima
-var lima = {
-
-  //store name
-  location: 'Lima',
-  //store min visits
-  minVisits: 2,
-  //store max visits
-  maxVisits: 16,
-  //avg sales per person
-  avgSales: 4.6,
-  //store open
-  openTime: 6,
-  //store close
-  closeTime: 21,
-  //sales per hour [array]
-  salesPerHour: [],
-
-  //Fill the salesPerHour Array with a value for each hour of operation
-  calculateSales: function() {
-
-    var hoursOpen = this.closeTime - this.openTime;
-
-    for (var i = 0; i < hoursOpen; i++) {
-
-      var visits = random(this.minVisits, this.maxVisits);
-      this.salesPerHour.push(Math.round( visits * this.avgSales ) );
-
-    }
-
-  },
-
-  //Adding to the HTML
-  render: function() {
-
-    //Store total dayly sales
-    var totalSales = 0;
-
-    //Get the Seattle tag in HTML
-    var tag = document.getElementById(this.location);
-
-    //Make the header for the store location and the list for the sales
-    var storeName = document.createElement('h3');
-    var list = document.createElement('ul');
-
-    storeName.textContent = this.location;
-
-    tag.appendChild(storeName);
-    tag.appendChild(list);
-
-    //Making the list of sales
-    for(var i = 0; i < this.salesPerHour.length; i++) {
-
-      var li = document.createElement('li');
-
-      var time = i + this.openTime;
-
-      //Changes based on time of day
-      if(time < 12) {
-
-        li.textContent = `${time}am: ${this.salesPerHour[i]} cookies`;
-
-      } else if(time === 12) {
-
-        li.textContent = `${time}pm: ${this.salesPerHour[i]} cookies`;
-
-      } else {
-
-        li.textContent = `${time - 12}pm: ${this.salesPerHour[i]} cookies`;
-
-      }
-
-      totalSales += this.salesPerHour[i];
-
-      list.appendChild(li);
-
-    }
-
-    var total = document.createElement('li');
-
-    total.textContent = `Total Sales: ${totalSales} cookies`;
-
-    list.appendChild(total);
-
-  },
-
-};
-
-//array of all stores
-var stores = [seattle, tokyo, dubai, paris, lima];
-
-for (var i = 0; i < stores.length; i++) {
-
-  //calculating sales for every store
-  stores[i].calculateSales();
-
-  //Rendering Every Store
-  stores[i].render();
+  //Add entire row to table
+  table.appendChild(row);
 
 }
+
+function printFooter (table) {
+
+  //Track global sales
+  var dailySaleTotal = 0;
+
+  //create last row
+  var row = document.createElement('tr');
+
+  //Adding a label to that last row
+  var rowLabel = document.createElement('td');
+  rowLabel.textContent = 'Hourly Sales';
+
+  row.appendChild(rowLabel);
+
+  //Iterate each hour
+  for (var i = 0; i < Store.all[0].salesPerHour.length; i++) {
+
+    //Track the total sales between all stores that hour
+    var hourlyTotal = 0;
+    var displayTotal = document.createElement('td');
+
+    //Iterate for each store
+    for (var j = 0; j < Store.all.length; j++) {
+
+      //Add to the sum the value of the 'j' index city at 'i' index hour
+      hourlyTotal += Store.all[j].salesPerHour[i];
+
+    }
+
+    //Add value to the global sales
+    dailySaleTotal += hourlyTotal;
+
+    //Add an element for the hourly total
+    displayTotal.textContent = hourlyTotal;
+    row.appendChild(displayTotal);
+
+  }
+
+  //Add an element for the global sales
+  var displayDailyTotal = document.createElement('td');
+  displayDailyTotal.textContent = dailySaleTotal;
+
+  row.appendChild(displayDailyTotal);
+
+  //Add entire row to table
+  table.appendChild(row);
+
+}
+
+//Create the Objects
+
+//Seattle Min:23 Max:65 Avg:6.3
+new Store('Seattle', 23, 65, 6.3);
+//Tokyo   Min:3  Max:24 Avg:1.2
+new Store('Tokyo', 3, 24, 1.2);
+//Dubai   Min:11 Max:28 Avg:3.7
+new Store('Dubai', 11, 28, 3.7);
+//Paris   Min:20 Max:38 Avg:2.3
+new Store('Paris', 20, 38, 2.3);
+//Lima    Min:2  Max:16 Avg:4.6
+new Store('Lima', 2, 16, 4.6);
+
+//Print the tabeles for the sales data
+printTable();
