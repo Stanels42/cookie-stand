@@ -73,7 +73,7 @@ var seattle = {
 
       var time = i + this.openTime;
 
-      //Changes the time of day 
+      //Changes based on time of day
       if(time < 12) {
 
         li.textContent = `${time}am: ${this.salesPerHour[i]} cookies`;
@@ -161,7 +161,7 @@ var tokyo = {
 
       var time = i + this.openTime;
 
-      //Changes the time of day 
+      //Changes based on time of day
       if(time < 12) {
 
         li.textContent = `${time}am: ${this.salesPerHour[i]} cookies`;
@@ -249,7 +249,7 @@ var dubai = {
 
       var time = i + this.openTime;
 
-      //Changes the time of day 
+      //Changes based on time of day
       if(time < 12) {
 
         li.textContent = `${time}am: ${this.salesPerHour[i]} cookies`;
@@ -337,7 +337,7 @@ var paris = {
 
       var time = i + this.openTime;
 
-      //Changes the time of day 
+      //Changes based on time of day
       if(time < 12) {
 
         li.textContent = `${time}am: ${this.salesPerHour[i]} cookies`;
@@ -425,7 +425,7 @@ var lima = {
 
       var time = i + this.openTime;
 
-      //Changes the time of day 
+      //Changes based on time of day
       if(time < 12) {
 
         li.textContent = `${time}am: ${this.salesPerHour[i]} cookies`;
@@ -456,16 +456,15 @@ var lima = {
 
 };
 
-//calculating sales for every store
-seattle.calculateSales();
-tokyo.calculateSales();
-dubai.calculateSales();
-paris.calculateSales();
-lima.calculateSales();
+//array of all stores
+var stores = [seattle, tokyo, dubai, paris, lima];
 
-//Rendering Every Store
-seattle.render();
-tokyo.render();
-dubai.render();
-paris.render();
-lima.render();
+for (var i = 0; i < stores.length; i++) {
+
+  //calculating sales for every store
+  stores[i].calculateSales();
+
+  //Rendering Every Store
+  stores[i].render();
+
+}
