@@ -5,8 +5,7 @@
 //Dubai   Min:11 Max:28 Avg:3.7
 //Paris   Min:20 Max:38 Avg:2.3
 //Lima    Min:2  Max:16 Avg:4.6
-//Operation Hours 6am - 8pm
-
+//Operation Hours 6am - 9pm
 const storeOpen = 6;
 const storeClose = 21;
 
@@ -19,18 +18,18 @@ function random(min, max) {
 
 }
 
-function Stores (location, minVisits, maxVisits, avgSales) {
+function Store (location, minVisits, maxVisits, avgSales) {
   this.location = location;
   this.minVisits = minVisits;
   this.maxVisits = maxVisits;
   this.avgSales = avgSales;
   this.salesPerHour = [];
-  Stores.all.push(this);
+  Store.all.push(this);
 }
 
-Stores.all = [];
+Store.all = [];
 
-Stores.prototype.calculateSales = function() {
+Store.prototype.calculateSales = function() {
 
   var hoursOpen = storeClose - storeOpen;
 
@@ -43,7 +42,7 @@ Stores.prototype.calculateSales = function() {
 
 };
 
-Stores.prototype.render = function() {
+Store.prototype.render = function() {
 
   //Store total dayly sales
   var totalSales = 0;
@@ -65,7 +64,7 @@ Stores.prototype.render = function() {
 
     var li = document.createElement('li');
 
-    var time = i + this.openTime;
+    var time = i + storeOpen;
 
     //Changes based on time of day
     if(time < 12) {
@@ -96,19 +95,28 @@ Stores.prototype.render = function() {
 
 };
 
-//
-new Stores('Seattle', 23, 65, 6.3);
+
+//Seattle Min:23 Max:65 Avg:6.3
+new Store('Seattle', 23, 65, 6.3);
+//Tokyo   Min:3  Max:24 Avg:1.2
+new Store('Tokyo', 3, 24, 1.2);
+//Dubai   Min:11 Max:28 Avg:3.7
+new Store('Dubai', 11, 28, 3.7);
+//Paris   Min:20 Max:38 Avg:2.3
+new Store('Paris', 20, 38, 2.3);
+//Lima    Min:2  Max:16 Avg:4.6
+new Store('Lima', 2, 16, 4.6);
 
 
 //array of all stores
 
 
-for (var i = 0; i < Stores.all.length; i++) {
+for (var i = 0; i < Store.all.length; i++) {
 
   //calculating sales for every store
-  Stores.all[i].calculateSales();
+  Store.all[i].calculateSales();
 
   //Rendering Every Store
-  Stores.all[i].render();
+  Store.all[i].render();
 
 }
