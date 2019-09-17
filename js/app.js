@@ -95,7 +95,7 @@ function printTable () {
 
   }
 
-  //printFooter(table);
+  printFooter(table);
 
 }
 
@@ -148,9 +148,39 @@ function printHeader (table) {
 
 function printFooter (table) {
 
+  var dailySaleTotal = 0;
+  
   var row = document.createElement('tr');
 
+  var rowLabel = document.createElement('td');
+  rowLabel.textContent = 'Hourly Sales';
+  row.appendChild(rowLabel);
 
+  //Iterate each hour
+  for (var i = 0; i < Store.all[0].salesPerHour.length; i++) {
+
+    var displayTotal = document.createElement('td');
+    var hourlyTotal = 0;
+
+    //Iterate for each store
+    for (var j = 0; j < Store.all.length; j++) {
+
+      hourlyTotal += Store.all[j].salesPerHour[i];
+
+    }
+
+    dailySaleTotal += hourlyTotal;
+
+    displayTotal.textContent = hourlyTotal;
+
+    row.appendChild(displayTotal);
+
+  }
+
+  var displayDailyTotal = document.createElement('td');
+  displayDailyTotal.textContent = dailySaleTotal;
+
+  row.appendChild(displayDailyTotal);
 
   table.appendChild(row);
 
