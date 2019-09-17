@@ -24,6 +24,7 @@ function Store (location, minVisits, maxVisits, avgSales) {
   this.maxVisits = maxVisits;
   this.avgSales = avgSales;
   this.salesPerHour = [];
+  this.salesTotal = 0;
   Store.all.push(this);
 }
 
@@ -36,65 +37,124 @@ Store.prototype.calculateSales = function() {
   for (var i = 0; i < hoursOpen; i++) {
 
     var visits = random(this.minVisits, this.maxVisits);
-    this.salesPerHour.push(Math.round( visits * this.avgSales ) );
+
+    var sales = Math.round( visits * this.avgSales );
+
+    this.salesTotal += sales;
+    this.salesPerHour.push(sales);
 
   }
 
 };
 
-Store.prototype.render = function() {
+Store.prototype.render = function(row) {
 
-  //Store total dayly sales
-  var totalSales = 0;
+  var location = document.createElement('td');
 
-  //Get the Seattle tag in HTML
-  var tag = document.getElementById(this.location);
+  location.textContent = this.location;
 
-  //Make the header for the store location and the list for the sales
-  var storeName = document.createElement('h3');
-  var list = document.createElement('ul');
+  row.appendChild(location);
 
-  storeName.textContent = this.location;
+  for (var i = 0; i < this.salesPerHour.length; i++) {
 
-  tag.appendChild(storeName);
-  tag.appendChild(list);
+    var sales = document.createElement('td');
 
-  //Making the list of sales
-  for(var i = 0; i < this.salesPerHour.length; i++) {
+    sales.textContent = this.salesPerHour[i];
 
-    var li = document.createElement('li');
+    row.appendChild(sales);
+
+  }
+
+  var tableTotal = document.createElement('td');
+
+  tableTotal.textContent = this.salesTotal;
+
+  row.appendChild(tableTotal);
+
+};
+
+//array of all stores
+
+function printTable () {
+
+  console.log('printing table');
+
+  var table = document.getElementById('table');
+  console.log(table);
+
+  printHeader(table);
+
+  for (var i = 0; i < Store.all.length; i++) {
+
+    var row = document.createElement('tr');
+
+    Store.all[i].calculateSales();
+    Store.all[i].render(row);
+
+    table.appendChild(row);
+
+  }
+
+  //printFooter(table);
+
+}
+
+function printHeader (table) {
+
+  var operationHours = storeClose - storeOpen;
+
+  var row = document.createElement('tr');
+
+  //print 'location'
+  var locationTag = document.createElement('th');
+  locationTag.textContent = 'Location';
+
+  row.appendChild(locationTag);
+
+  for (var i = 0; i < operationHours; i++) {
+    //print times
+    var newTH = document.createElement('th');
 
     var time = i + storeOpen;
 
     //Changes based on time of day
     if(time < 12) {
 
-      li.textContent = `${time}am: ${this.salesPerHour[i]} cookies`;
+      newTH.textContent = `${time}am`;
 
     } else if(time === 12) {
 
-      li.textContent = `${time}pm: ${this.salesPerHour[i]} cookies`;
+      newTH.textContent = `${time}pm`;
 
     } else {
 
-      li.textContent = `${time - 12}pm: ${this.salesPerHour[i]} cookies`;
+      newTH.textContent = `${time - 12}pm`;
 
     }
 
-    totalSales += this.salesPerHour[i];
-
-    list.appendChild(li);
+    //Add to the time to the row
+    row.appendChild(newTH);
 
   }
 
-  var total = document.createElement('li');
+  var dailyTotal = document.createElement('th');
+  dailyTotal.textContent = 'Total Daily Sales';
 
-  total.textContent = `Total Sales: ${totalSales} cookies`;
+  row.appendChild(dailyTotal);
 
-  list.appendChild(total);
+  table.appendChild(row);
 
-};
+}
 
+function printFooter (table) {
+
+  var row = document.createElement('tr');
+
+
+
+  table.appendChild(row);
+
+}
 
 //Seattle Min:23 Max:65 Avg:6.3
 new Store('Seattle', 23, 65, 6.3);
@@ -107,16 +167,54 @@ new Store('Paris', 20, 38, 2.3);
 //Lima    Min:2  Max:16 Avg:4.6
 new Store('Lima', 2, 16, 4.6);
 
+console.log('reached print');
+printTable();
 
-//array of all stores
+// //Store total dayly sales
+// var totalSales = 0;
 
+// //Get the Seattle tag in HTML
+// var tag = document.getElementById(this.location);
 
-for (var i = 0; i < Store.all.length; i++) {
+// //Make the header for the store location and the list for the sales
+// var storeName = document.createElement('h3');
+// var list = document.createElement('ul');
 
-  //calculating sales for every store
-  Store.all[i].calculateSales();
+// storeName.textContent = this.location;
 
-  //Rendering Every Store
-  Store.all[i].render();
+// tag.appendChild(storeName);
+// tag.appendChild(list);
 
-}
+// //Making the list of sales
+// for(var i = 0; i < this.salesPerHour.length; i++) {
+
+  //   var li = document.createElement('li');
+
+  //   var time = i + storeOpen;
+
+  //   //Changes based on time of day
+//   if(time < 12) {
+
+//     li.textContent = `${time}am: ${this.salesPerHour[i]} cookies`;
+
+//   } else if(time === 12) {
+
+//     li.textContent = `${time}pm: ${this.salesPerHour[i]} cookies`;
+
+//   } else {
+
+//     li.textContent = `${time - 12}pm: ${this.salesPerHour[i]} cookies`;
+
+//   }
+
+//   totalSales += this.salesPerHour[i];
+
+//   list.appendChild(li);
+
+// }
+
+// var total = document.createElement('li');
+
+// total.textContent = `Total Sales: ${totalSales} cookies`;
+
+// list.appendChild(total);
