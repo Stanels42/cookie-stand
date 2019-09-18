@@ -4,8 +4,25 @@
     <title>Sales Forcast</title>
   </head>
   <body>
-    <table id = "table"></table>
+    <form id="Manual-Input">
+      <fieldset id="Manual-Input">
+        <h3>Add Store</h3>
+        <label>Store Location: </label>
+        <input id = "location" type="text" required/>
 
+        <label>Minimum Visitors: </label>
+        <input id = "minVisits" type="text" required/>
+
+        <label>Maximum Visitors: </label>
+        <input id = "maxVisits" type="text" required/>
+
+        <label>Average Sales: </label>
+        <input id = "avgSales" type="text" required/>
+
+        <button id="submit" type="submit">Submit</button>
+      </fieldset>
+    </form>
+    <table id="table"></table>
     <script src="js/app.js"></script>
   </body>
 </Html>

@@ -10,9 +10,18 @@
 const storeOpen = 6;
 const storeClose = 21;
 
+//Array to store all Stores
+Store.all = [];
 
+//Create the event listener
+var userform = document.getElementById('Manual-Input');
+console.log(userform);
+userform.addEventListener('submit', manualInput);
 
-//Object Declaration
+/**
+Object Declaration
+*/
+
 function Store (location, minVisits, maxVisits, avgSales) {
 
   //Assigning all parameters to variables
@@ -90,7 +99,9 @@ Store.prototype.random = function(min, max){
 
 };
 
-//End Of Object
+/**
+End Of Object
+*/
 
 //Called to print the entire table
 function printTable () {
@@ -222,8 +233,28 @@ function printFooter (table) {
 
 }
 
-//Array to store all Stores
-Store.all = [];
+//get the input the user put into the web page
+function manualInput(event) {
+  
+  event.preventDefault();
+
+  var newLocation = event.target.location.value;
+  var min = event.target.minVisits.value;
+  var max = event.target.maxVisits.value;
+  var avg = event.target.avgSales.value;
+
+  //Create a new Store
+  new Store(newLocation, min, max, avg);
+
+  //Reprint the table with the new Store
+  printTable();
+
+  //Reset all text boxes to empty
+  event.target.location.value = null;
+  event.target.minVisits.value = null;
+  event.target.maxVisits.value = null;
+  event.target.avgSales.value = null;
+}
 
 //Create the Objects
 
