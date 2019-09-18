@@ -33,9 +33,6 @@ function Store (location, minVisits, maxVisits, avgSales) {
 
 }
 
-//Array of all Stores
-Store.all = [];
-
 //Fill and array with each index being sales for a different hour
 Store.prototype.calculateSales = function() {
 
@@ -93,13 +90,16 @@ Store.prototype.random = function(min, max){
 
 };
 
-
+//End Of Object
 
 //Called to print the entire table
 function printTable () {
 
   //getting the table element from the HTML
   var table = document.getElementById('table');
+
+  //remove the old table
+  table.innerHTML = '';
 
   //Print the Times and the Labels for the Table
   printHeader(table);
@@ -160,7 +160,7 @@ function printHeader (table) {
 
   }
 
-  //Add an extra 
+  //Add an extra
   var dailyTotal = document.createElement('th');
   dailyTotal.textContent = 'Total Daily Sales';
 
@@ -186,11 +186,11 @@ function printFooter (table) {
   row.appendChild(rowLabel);
 
   //Iterate each hour
+  //Don't have an hours array to use so pulled an array from an object
   for (var i = 0; i < Store.all[0].salesPerHour.length; i++) {
 
     //Track the total sales between all stores that hour
     var hourlyTotal = 0;
-    var displayTotal = document.createElement('td');
 
     //Iterate for each store
     for (var j = 0; j < Store.all.length; j++) {
@@ -204,12 +204,14 @@ function printFooter (table) {
     dailySaleTotal += hourlyTotal;
 
     //Add an element for the hourly total
+    var displayTotal = document.createElement('td');
     displayTotal.textContent = hourlyTotal;
+
     row.appendChild(displayTotal);
 
   }
 
-  //Add an element for the global sales
+  //Add an element for the global sales total
   var displayDailyTotal = document.createElement('td');
   displayDailyTotal.textContent = dailySaleTotal;
 
@@ -219,6 +221,9 @@ function printFooter (table) {
   table.appendChild(row);
 
 }
+
+//Array to store all Stores
+Store.all = [];
 
 //Create the Objects
 
