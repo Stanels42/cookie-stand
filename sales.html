@@ -7,18 +7,24 @@
   </head>
   <body>
     <img src="images/salmon.png" alt="">
+    <!-- The User input form -->
     <form id="Manual-Input">
       <fieldset id="Manual-Input">
         <h3>Add Store</h3>
+
+        <!-- Validation: Limited to strings with a length between 3 and 12 -->
         <label>Store Location: </label>
         <input id = "location" type="text" placeholder = "Location Name" required minlength="3" maxlength="12" />
 
+        <!-- Takes in the minimum number of visitors that would visit in an hour -->
         <label>Minimum Visitors: </label>
-        <input id = "minVisits" type="number" placeholder = "Whole Number" required min = "1"/>
+        <input id = "minVisits" type="number" placeholder = "Whole Number" required min = "0"/>
 
+        <!-- Simular to the Minimum use JavaScript to valadate the number is the larger of the two -->
         <label>Maximum Visitors: </label>
         <input id = "maxVisits" type="number" placeholder = "Whole Number" required min = "1"/>
 
+        <!-- Allows a number that can have one decimal place attached to it -->
         <label>Average Sales: </label>
         <input id = "avgSales" type="number" placeholder = "Limit to Tenths" required min = "0" step = ".1"/>
 
