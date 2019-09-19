@@ -15,7 +15,6 @@ Store.all = [];
 
 //Create the event listener
 var userform = document.getElementById('Manual-Input');
-console.log(userform);
 userform.addEventListener('submit', manualInput);
 
 /**
@@ -95,7 +94,7 @@ Store.prototype.random = function(min, max){
   //The '+ 1' is to make sure the random will be min/max inclusive
   var difference = max - min + 1;
 
-  return( Math.floor( Math.random() * difference) + min);
+  return (Math.random() * difference) + min;
 
 };
 
@@ -105,6 +104,8 @@ End Of Object
 
 //Called to print the entire table
 function printTable () {
+
+  console.log(Store.all);
 
   //getting the table element from the HTML
   var table = document.getElementById('table');
@@ -235,25 +236,41 @@ function printFooter (table) {
 
 //get the input the user put into the web page
 function manualInput(event) {
-  
+
   event.preventDefault();
 
+
+  console.log('.');
+
   var newLocation = event.target.location.value;
-  var min = event.target.minVisits.value;
-  var max = event.target.maxVisits.value;
-  var avg = event.target.avgSales.value;
+  var min = Number.parseInt(event.target.minVisits.value);
+  var max = Number.parseInt(event.target.maxVisits.value);
+  var avg = Number.parseFloat(event.target.avgSales.value);
 
-  //Create a new Store
-  new Store(newLocation, min, max, avg);
+  //INPUT VALIDATION
 
-  //Reprint the table with the new Store
-  printTable();
+  
 
-  //Reset all text boxes to empty
-  event.target.location.value = null;
-  event.target.minVisits.value = null;
-  event.target.maxVisits.value = null;
-  event.target.avgSales.value = null;
+  if (max < min) {
+
+    alert('Max value must be larger then Min');
+
+  } else {
+
+    //Create a new Store
+    new Store(newLocation, min, max, avg);
+
+    //Reprint the table with the new Store
+    printTable();
+
+    //Reset all text boxes to empty
+    event.target.location.value = null;
+    event.target.minVisits.value = null;
+    event.target.maxVisits.value = null;
+    event.target.avgSales.value = null;
+
+  }
+
 }
 
 //Create the Objects

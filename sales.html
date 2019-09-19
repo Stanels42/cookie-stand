@@ -2,26 +2,30 @@
 <Html>
   <head>
     <title>Sales Forcast</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Mono&display=swap" rel="stylesheet">
   </head>
   <body>
+    <img src="images/salmon.png" alt="">
     <form id="Manual-Input">
       <fieldset id="Manual-Input">
         <h3>Add Store</h3>
         <label>Store Location: </label>
-        <input id = "location" type="text" required/>
+        <input id = "location" type="text" placeholder = "Location Name" required minlength="3" maxlength="12" />
 
         <label>Minimum Visitors: </label>
-        <input id = "minVisits" type="text" required/>
+        <input id = "minVisits" type="number" placeholder = "Whole Number" required min = "1"/>
 
         <label>Maximum Visitors: </label>
-        <input id = "maxVisits" type="text" required/>
+        <input id = "maxVisits" type="number" placeholder = "Whole Number" required min = "1"/>
 
         <label>Average Sales: </label>
-        <input id = "avgSales" type="text" required/>
+        <input id = "avgSales" type="number" placeholder = "Limit to Tenths" required min = "0" step = ".1"/>
 
         <button id="submit" type="submit">Submit</button>
       </fieldset>
     </form>
+
     <table id="table"></table>
     <script src="js/app.js"></script>
   </body>

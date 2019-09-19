@@ -1,0 +1,80 @@
+/* Background */
+body {
+  background: rgb(240, 240, 240)
+}
+/* Add Store Display */
+form {
+  max-width: 200px;
+  margin: 0 auto 0 auto;
+  margin-bottom: 20px;
+  
+  background: lightcyan;
+
+  box-shadow: 8px 8px lightslategray;
+}
+
+h3 {
+  text-align: center;
+
+  font-family: 'Roboto Mono', monospace;
+
+}
+
+/* Image Display Settings */
+img {
+  margin: 0 auto 0 auto;
+  display: block;
+  max-width: 25%;
+}
+
+/* Table Display */
+table {
+  margin: 0 auto 0 auto;
+
+  background: aqua;
+  outline: black double 3px;
+  box-shadow: 10px 10px grey;
+
+  text-align: center;
+}
+
+/* Borders for the first row */
+th {
+  outline: solid 1px;
+}
+
+/* Borders for the main cells */
+td {
+  min-width: 40px;
+
+  outline: lightgray solid 1px;
+}
+
+/* Color the vairous table rows different colors. Can be expanded */
+tr:first-child {
+  background: lightsalmon;
+}
+tr:nth-of-type(1n+2) {
+  background: lightseagreen;
+}
+tr:nth-of-type(even){
+  background: lightskyblue;
+}
+tr:last-child {
+  background: lightcoral
+}
+
+/* Set all totals to bold */
+tr > td:last-child{
+
+  font-weight: 550;
+
+}
+
+/* Target the very last cell in the table */
+tr:last-child > td:last-child{
+
+  background: coral;
+
+  font-weight: bolder;
+}
