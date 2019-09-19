@@ -10,9 +10,17 @@
 const storeOpen = 6;
 const storeClose = 21;
 
+//Array to store all Stores
+Store.all = [];
 
+//Create the event listener for the user input
+var userform = document.getElementById('Manual-Input');
+userform.addEventListener('submit', manualInput);
 
-//Object Declaration
+/**
+Object Declaration
+*/
+
 function Store (location, minVisits, maxVisits, avgSales) {
 
   //Assigning all parameters to variables
@@ -86,19 +94,24 @@ Store.prototype.random = function(min, max){
   //The '+ 1' is to make sure the random will be min/max inclusive
   var difference = max - min + 1;
 
-  return( Math.floor( Math.random() * difference) + min);
+  return (Math.random() * difference) + min;
 
 };
 
-//End Of Object
+/**
+End Of Object
+*/
 
 //Called to print the entire table
 function printTable () {
 
+  //Bug testing: Display all 'Stores' that will be printed
+  console.log(Store.all);
+
   //getting the table element from the HTML
   var table = document.getElementById('table');
 
-  //remove the old table
+  //remove the old table from the page
   table.innerHTML = '';
 
   //Print the Times and the Labels for the Table
@@ -120,6 +133,7 @@ function printTable () {
 
 }
 
+//Print the first row of the table
 function printHeader (table) {
 
   //Get the number of Hours that the store will be open
@@ -140,7 +154,7 @@ function printHeader (table) {
 
     var time = i + storeOpen;
 
-    //Changes based on time of day
+    //Changes value based on time of day
     if(time < 12) {
 
       newTH.textContent = `${time}am`;
@@ -171,6 +185,7 @@ function printHeader (table) {
 
 }
 
+//Frint the hourly totals for all stores at the bottom of the table
 function printFooter (table) {
 
   //Track global sales
@@ -222,8 +237,44 @@ function printFooter (table) {
 
 }
 
-//Array to store all Stores
-Store.all = [];
+//get the input the user put into the web page
+function manualInput(event) {
+
+  //Make sure the event doen't automatically reload the page
+  event.preventDefault();
+
+  //Create variables for all 4 inputs
+  var newLocation = event.target.location.value;
+  //Getting a value from an input box with the number property
+  var min = Number.parseInt(event.target.minVisits.value);
+  var max = Number.parseInt(event.target.maxVisits.value);
+  var avg = Number.parseFloat(event.target.avgSales.value);
+
+  //INPUT VALIDATION
+  //All others are validated before being pulled to JavaScript
+  if (max < min) {
+
+    //I wanted to use the Custom alert message but couldn't get it working
+    //Informs the user that their values cannot be reversed
+    alert('Max value must be larger then Min');
+
+  } else {
+
+    //Create a new Store
+    new Store(newLocation, min, max, avg);
+
+    //Reprint the table with the new Store
+    printTable();
+
+    //Reset all text boxes to empty
+    event.target.location.value = null;
+    event.target.minVisits.value = null;
+    event.target.maxVisits.value = null;
+    event.target.avgSales.value = null;
+
+  }
+
+}
 
 //Create the Objects
 
