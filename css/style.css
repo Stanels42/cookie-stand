@@ -9,15 +9,22 @@ form {
   margin-bottom: 20px;
   
   background: lightcyan;
+  outline: black solid 1px;
 
   box-shadow: 8px 8px lightslategray;
 }
 
 h3 {
+  margin: 5px;
+
   text-align: center;
 
   font-family: 'Roboto Mono', monospace;
 
+}
+
+button, input,label {
+  margin:5px;
 }
 
 /* Image Display Settings */
