@@ -1,0 +1,32 @@
+* {
+outline: black solid 1px;
+}
+
+/*
+._    _   ____    ___    ____
+| |  | | | ___|  / _ \  |  _ \
+| |__| | | |__  | |_| | | | \ |
+|  __  | | ___| |  _  | | | | |
+| |  | | | |__  | | | | | |_/ |
+|_|  |_| |____| |_| |_| |____/
+*/
+
+header {
+  background: #999999;
+}
+header > div {
+  display: inline-block;
+}
+
+
+
+
+
+
+
+main {
+  background: #777777;
+}
+footer {
+  background: #999999;
+}
