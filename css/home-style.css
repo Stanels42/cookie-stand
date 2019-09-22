@@ -1,32 +1,109 @@
-* {
+/* Universal */
+/* * {
 outline: black solid 1px;
+} */
+
+/* Body */
+body {
+  background-color: whitesmoke;
+  width: 1200px;
+  margin: 0 auto;
 }
 
-/*
-._    _   ____    ___    ____
-| |  | | | ___|  / _ \  |  _ \
-| |__| | | |__  | |_| | | | \ |
-|  __  | | ___| |  _  | | | | |
-| |  | | | |__  | | | | | |_/ |
-|_|  |_| |____| |_| |_| |____/
+/* 
+Header 
 */
 
 header {
   background: #999999;
+  height: 200px;
 }
+/* Logo and Slogan */
 header > div {
+  max-width:20%;
   display: inline-block;
 }
+header div img {
+  height: 150px;
+}
 
+/* Title and images */
+header section {
+  width: 85%;
+  display: inline-block;
+}
+header section img {
+  display: inline-block;
+  max-width: 32%;
+}
+header section div {
+  display: inline-block;
+  text-align: center;
+}
+header section div h1 {
+  font-size: 3em;
+}
 
-
-
-
-
-
+/* Main */
 main {
+  padding-top: 2em;
   background: #777777;
 }
+
+/* Locations List */
+main div h2 {
+  font-size: 1.5em;
+  text-align: center;
+}
+main div ul li{
+  display: inline-block;
+  outline: black solid 1px;
+  background-color: teal;
+  text-align:center;
+  max-width: 18%;
+  margin: .867%;
+}
+main div ul li h4{
+  font-size: 1.25em;
+  /* Change text style */
+}
+main div ul li img{
+  width: 100%;
+}
+main div ul li p{
+  text-align: center;
+}
+main div h3 {
+  margin-top: .5em;
+  font-size: 1em;
+  text-align: center;
+  
+}
+
+/* Event List */
+main div:last-child {
+  margin-top: 2em;
+}
+main div article {
+  display:inline-block;
+  outline: black solid 1px;
+  height: 300px;
+  width: 22%;
+  margin: 0 1.37%;
+}
+main div article h4 {
+  text-align: center;
+  font-size: 1.5em;
+}
+main div article img{
+  display:flex;
+  margin:  0;
+  max-width: 100%;
+  max-height: 300px;
+}
+
+/* Footer */
+
 footer {
   background: #999999;
 }
