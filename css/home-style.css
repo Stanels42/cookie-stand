@@ -3,11 +3,27 @@
 outline: black solid 1px;
 } */
 
+/* 
+font-family: 'Libre Baskerville', serif;
+font-family: 'Lobster', cursive;
+font-family: 'Bevan', cursive;
+font-family: 'Bowlby One SC', cursive;
+font-family: 'VT323', monospace;
+*/
+
 /* Body */
 body {
-  background-color: whitesmoke;
+  background-color: rgb(207, 248, 224);
+  background-image: url(/images/salmon.png);
+  background-repeat: repeat-x;
+  background-position: right top;
+  background-attachment: fixed;
   width: 1200px;
   margin: 0 auto;
+  color:rgb(77, 77, 77);
+}
+h1, h2{
+  text-shadow: 1px 1px black;
 }
 
 /* 
@@ -15,22 +31,31 @@ Header
 */
 
 header {
-  background: #999999;
+  /* background: #999999; */
   height: 200px;
+  background-color: rgba(181, 233, 216, 0.75);
 }
 /* Logo and Slogan */
 header > div {
-  max-width:20%;
+  max-width:15%;
   display: inline-block;
+  background-color: rgba(0, 255, 255, 0.34);
 }
 header div img {
   height: 150px;
+}
+header div h5 {
+  text-align: center;
+  font-size: 1em;
+  font-family: 'Bevan', cursive;
+  text-shadow: 1px 1px black;
 }
 
 /* Title and images */
 header section {
   width: 85%;
   display: inline-block;
+  background-color: rgba(50, 138, 109, 0.34);
 }
 header section img {
   display: inline-block;
@@ -41,27 +66,44 @@ header section div {
   text-align: center;
 }
 header section div h1 {
+  margin: 0 .5em;
   font-size: 3em;
+  font-family: 'Lobster', cursive;
+}
+header section div h5 {
+  font-family: 'Bowlby One SC', cursive;
 }
 
 /* Main */
 main {
   padding-top: 2em;
-  background: #777777;
+  background-color: rgba(0, 139, 139, 0.95);
 }
 
 /* Locations List */
 main div h2 {
+  text-decoration: underline;
   font-size: 1.5em;
   text-align: center;
+  font-family: 'Bevan', cursive;
 }
 main div ul li{
   display: inline-block;
-  outline: black solid 1px;
-  background-color: teal;
+  outline: rgb(82, 26, 5) solid 1px;
+  background-color: seagreen;
   text-align:center;
   max-width: 18%;
-  margin: .867%;
+  margin: .867% .867% 0 .867%;
+  transition: 100ms;
+  color: black;
+}
+main div ul li:hover {
+  background-color: rgb(0, 46, 46);
+  color:coral;
+}
+main div ul li a {
+  text-decoration: none;
+  color:inherit;
 }
 main div ul li h4{
   font-size: 1.25em;
@@ -74,7 +116,15 @@ main div ul li p{
   text-align: center;
 }
 main div h3 {
-  margin-top: .5em;
+  width: 30%;
+  margin: .25em auto .5em auto;
+  padding-top: .5em;
+  border-left: black dashed 1px;
+  border-bottom: black solid 1px;
+  border-right: black dashed 1px;
+  background-color: rgb(46, 139, 87, .5);
+  color: coral;
+  text-shadow: 1px 1px black;
   font-size: 1em;
   text-align: center;
   
@@ -82,28 +132,71 @@ main div h3 {
 
 /* Event List */
 main div:last-child {
-  margin-top: 2em;
+  padding: 2em 0;
+  background-color: rgba(250, 128, 114, 0.062);
 }
 main div article {
   display:inline-block;
   outline: black solid 1px;
-  height: 300px;
+  overflow: auto;
+  background-color: rgba(255, 127, 80, 0.322);
+  
+  height: 350px;
   width: 22%;
   margin: 0 1.37%;
+  transition: 1s;
+}
+main div article:hover {
+  background-color: rgba(252, 135, 92, 0.767);
+  color: black;
 }
 main div article h4 {
   text-align: center;
-  font-size: 1.5em;
+  font-family: 'Libre Baskerville', serif;
+  margin: .25em;
+  font-size: 1.75em;
 }
 main div article img{
   display:flex;
-  margin:  0;
+  margin: 0 auto;
   max-width: 100%;
-  max-height: 300px;
+  max-height: 200px;
+}
+main div article h6, main div article h5 {
+  margin-top: 1.5em;
+  font-size: 1.2em;
+  text-align: center;
+  text-decoration: underline double;
+}
+main div article h6 {
+  text-decoration: underline;
+}
+/* Trying to remove textdiceration for part of a title */
+/* main div article h6 span{
+  text-decoration: none;
+} */
+main div article button {
+  text-decoration: none;
+  border-radius: 30px;
+  width: 60%;
+  margin: .5em auto .25em 45px;
+}
+main div article button:last-child {
+  margin: 1em auto .25em 45px;
 }
 
 /* Footer */
 
 footer {
-  background: #999999;
+  background:rgba(255, 127, 80, 0.5);
+  font-family: 'VT323', monospace;
+  padding-bottom: 1.5em;
+}
+footer > p {
+  font-family: 'Lobster', cursive;
+}
+footer ul li {
+  display: inline-block;
+  max-width: 25%;
+  margin: 0 1em;
 }
