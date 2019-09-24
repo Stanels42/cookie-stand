@@ -96,6 +96,7 @@ main div ul li{
   margin: .867% .867% 0 .867%;
   transition: 100ms;
   color: black;
+  font-family: 'Roboto', sans-serif;
 }
 main div ul li:hover {
   background-color: rgb(0, 46, 46);
